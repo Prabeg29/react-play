@@ -21,7 +21,7 @@ const App = () => {
       },
       {
         id: 3,
-        text: 'Fix bug',gst
+        text: 'Fix bug',
         day: 'Feb 5th at 2.30 pm',
         reminder: true
       },
@@ -29,13 +29,13 @@ const App = () => {
   );
 
   const deleteTask = id => {
-    console.log(id);
+    setTasks(tasks.filter(task => task.id !== id));
   };
 
   return (
     <div className="container">
       <Header/>
-      <Tasks tasks={tasks} onDelete={deleteTask}/>
+      {tasks.length ? <Tasks tasks={tasks} onDelete={deleteTask}/> : 'No tasks to show'}
     </div>
   );
 }
