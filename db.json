@@ -3,7 +3,7 @@
     {
       "title": "new task",
       "day": "Sunday",
-      "reminder": true,
+      "reminder": false,
       "id": 1
     }
   ]
