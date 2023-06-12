@@ -16,7 +16,7 @@
       "id": 3,
       "title": "Take out trash",
       "day": "Feb 6th at 7:30am",
-      "reminder": false
+      "reminder": true
     }
   ]
 }
