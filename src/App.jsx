@@ -5,6 +5,7 @@ import Tasks from './components/Tasks';
 import AddTask from './components/AddTask';
 
 function App() {
+  const [showAddTaskForm, setShowAddTaskForm] = useState(false);
   const [tasks, setTasks] = useState( []);
 
   useEffect(() => {
@@ -15,6 +16,8 @@ function App() {
 
     fetchTasks();
   }, []);
+
+  const toggleShowAddTaskForm = () => setShowAddTaskForm(!showAddTaskForm);
 
   const fetchTask = async (id) => {
     const data = await fetch(`http://localhost:5000/tasks/${id}`);
@@ -65,8 +68,8 @@ function App() {
 
   return (
     <div className="container">
-      <Header title='Task Tracker'/>
-      <AddTask onAdd={addTask}/>
+      <Header title='Task Tracker' showAddTaskForm={showAddTaskForm} toggleShowAddTaskForm={toggleShowAddTaskForm}/>
+      {showAddTaskForm && <AddTask onAdd={addTask}/>}
       <Tasks tasks={tasks} onToggle={toggleReminder} onDelete={deleteTask}/>
     </div>
   );

@@ -1,11 +1,10 @@
-const Button = ({ text, color }) => {
-  const logToConsole = () => console.log('Button clicked');
+const Button = ({ text, color, toggleShowAddTaskForm }) => {
   
   return (
     <button
       className="btn" 
       style={{ backgroundColor: color}}
-      onClick={logToConsole}
+      onClick={toggleShowAddTaskForm}
     >{ text }</button>
   )
 }
