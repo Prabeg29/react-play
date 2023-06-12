@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
+import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 
 import Header from './components/Header';
+import Footer from './components/Footer';
 import Tasks from './components/Tasks';
 import AddTask from './components/AddTask';
+import About from './components/About';
 
 function App() {
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
-  const [tasks, setTasks] = useState( []);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -17,11 +20,9 @@ function App() {
     fetchTasks();
   }, []);
 
-  const toggleShowAddTaskForm = () => setShowAddTaskForm(!showAddTaskForm);
-
   const fetchTask = async (id) => {
     const data = await fetch(`http://localhost:5000/tasks/${id}`);
-    
+
     return await data.json();
   };
 
@@ -58,20 +59,36 @@ function App() {
 
     const data = await res.json();
 
-    setTasks(tasks.map(task => id === task.id ? {...task, reminder: !data.reminder} : task));
+    setTasks(tasks.map(task => id === task.id ? { ...task, reminder: !data.reminder } : task));
   };
 
   const deleteTask = async id => {
-    await fetch(`http://localhost:5000/tasks/${id}`,{ method: 'DELETE' });
+    await fetch(`http://localhost:5000/tasks/${id}`, { method: 'DELETE' });
     setTasks(tasks.filter(task => id !== task.id));
   }
 
   return (
-    <div className="container">
-      <Header title='Task Tracker' showAddTaskForm={showAddTaskForm} toggleShowAddTaskForm={toggleShowAddTaskForm}/>
-      {showAddTaskForm && <AddTask onAdd={addTask}/>}
-      <Tasks tasks={tasks} onToggle={toggleReminder} onDelete={deleteTask}/>
-    </div>
+    <Router>
+      <div className="container">
+        <Header
+          title='Task Tracker'
+          showAddTaskForm={showAddTaskForm}
+          toggleShowAddTaskForm={() => setShowAddTaskForm(!showAddTaskForm)}
+        />
+
+        <Routes>
+          <Route path='/' element={
+            <>
+              {showAddTaskForm && <AddTask onAdd={addTask} />}
+              <Tasks tasks={tasks} onToggle={toggleReminder} onDelete={deleteTask} />
+            </>
+          } />
+          <Route path='about' element={<About />} />
+        </Routes>
+
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
